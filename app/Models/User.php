@@ -34,4 +34,9 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function loanApplications(){
+
+        return $this->hasMany(LoanApplication::class);
+    }
+
 }
