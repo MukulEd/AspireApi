@@ -19,7 +19,7 @@ class LoanController extends Controller
     {   
         try{
             $loanApplication=new LoanApplication();
-            $loanApplication->reference_id=time() . rand(0, 9);
+            $loanApplication->reference_id=time() . rand(0, 1009);
             $loanApplication->amount=$request->amount;
             $loanApplication->loan_term=$request->loan_term;
             $loanApplication->status=LoanApplication::STATUS_PENDING;
@@ -126,7 +126,7 @@ class LoanController extends Controller
 
             //Assuming Payment is always completed
             $loanPayment=new LoanPayment();
-            $loanPayment->reference_id=time(). rand(0, 9);
+            $loanPayment->reference_id=time(). rand(0, 1009);
             $loanPayment->loan_application_id=$application->id;
             $loanPayment->amount=$request->amount;
             $loanPayment->status=LoanPayment::STATUS_COMPLETED;

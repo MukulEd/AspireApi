@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Exception;
 
 class AuthController extends Controller
 {
@@ -13,12 +14,13 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {   
         $credentials = request(['email','password']);
-        if(!(Auth::attempt($credentials)))
+        $user=User::where('email',$request->email)->where('status',1)->first();
+        
+        if(empty($user) || !(Auth::attempt($credentials)))
         {
             return response(['message'=>'Invalid Credentials'],422);
         }
 
-        $user=User::where('email',$request->email)->first();
         $authToken=$user->createToken('aspire-auth-token')->plainTextToken;
 
         $response=[
@@ -31,10 +33,16 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request)
-    {
-        $request->user()->tokens()->delete();
-
-        return response(['message'=>'Logged Out'], 200);
+    {   
+        try{
+            $request->user()->tokens()->delete();
+            return response(['message'=>'Logged Out'], 200);
+            
+        }catch(Exception $e)
+        {
+            $error=['message'=>'Unauthorized'];
+            return response($error,422);
+        }
     }
 
 
