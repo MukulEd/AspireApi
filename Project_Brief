@@ -1,0 +1,20 @@
+This is laravel based application that does not use front-end , and work as an API.
+This Application allows users who are authenticated to apply for a loan and if approved make payment against it.
+
+For the Protected routes Laravel Sanctum Is used because this package  provides a featherweight authentication system for SPAs and token based API's.
+
+Beside the Login Page All Routes are protected by middleware which checks the authentication token.
+For login throttle is set for 60 request per minute ,so to limit request and control load on system and also decline repeated login attempts.
+
+When user tries to login thorugh email and password and if credentials as correct a token is provided to user, this token is stored within the server not client side and can be used
+managed itself from server , which was one of the reason to use this package along with its lightness.
+
+
+For the authentication code you can Refer to AuthenticationController in app/http/controllers/  folder.
+for the Loan related Code you can Refer to LoanController in app/http/controllers/ folder.
+
+
+Test cases are also made under folder - tests/Feature.
+
+Test case Files-AuthenticationTest
+                -LoanOperationsTest
